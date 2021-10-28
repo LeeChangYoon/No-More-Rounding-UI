@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string name="app_name">No More Rounding</string>
+    <string name="textview_signup_PMC1"><u>회원이 아니신가요?</u></string>
+    <string name="textview_signup_PMC2"><u>아이디 또는 비밀번호를 잊으셨나요?</u></string>
+</resources>
