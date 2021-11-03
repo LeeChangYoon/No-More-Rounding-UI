@@ -2,19 +2,29 @@ package com.example.nomorerounding
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.EditText
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.nomorerounding.databinding.Pmc2Binding
+
 
 class MainActivity2 : AppCompatActivity() {
+
+    private var mBinding: Pmc2Binding? = null
+    private val binding get() = mBinding!!
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.pmc2)
+        mBinding = Pmc2Binding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        val textview3: TextView = findViewById(R.id.textView3)
-        textview3.setOnClickListener {
+        binding.textView3.setOnClickListener{
             val intent_pmc3 = Intent(this, MainActivity3::class.java)
             startActivity(intent_pmc3)
+
+        }
+
+        binding.buttonSingin.setOnClickListener{
+            val intent_pmc5 = Intent(this, MainActivity5::class.java)
+            startActivity(intent_pmc5)
         }
     }
 }
