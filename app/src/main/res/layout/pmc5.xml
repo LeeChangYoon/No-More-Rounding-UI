@@ -290,8 +290,8 @@
             android:layout_height="75dp"
             android:layout_below="@id/b01"
             android:layout_marginLeft="30dp"
-            android:layout_toRightOf="@id/a01"
             android:layout_marginTop="3dp"
+            android:layout_toRightOf="@id/a01"
             android:background="@color/empty_space"></RelativeLayout>
 
         <RelativeLayout
@@ -300,8 +300,8 @@
             android:layout_height="75dp"
             android:layout_below="@id/b02"
             android:layout_marginLeft="30dp"
-            android:layout_toRightOf="@id/a03"
             android:layout_marginTop="3dp"
+            android:layout_toRightOf="@id/a03"
             android:background="@color/empty_space"></RelativeLayout>
 
         <RelativeLayout
@@ -320,8 +320,8 @@
             android:layout_height="75dp"
             android:layout_below="@id/b04"
             android:layout_marginLeft="30dp"
-            android:layout_toRightOf="@id/a05"
             android:layout_marginTop="3dp"
+            android:layout_toRightOf="@id/a05"
             android:background="@color/empty_space">
 
             <ImageView
@@ -340,8 +340,8 @@
             android:layout_height="75dp"
             android:layout_below="@id/b05"
             android:layout_marginLeft="30dp"
-            android:layout_toRightOf="@id/a06"
             android:layout_marginTop="3dp"
+            android:layout_toRightOf="@id/a06"
             android:background="@color/empty_space">
 
             <ImageView
