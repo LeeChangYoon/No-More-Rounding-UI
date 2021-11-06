@@ -44,14 +44,14 @@
             android:textColor="@color/black"/>
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/textView_signup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginBottom="@android:dimen/app_icon_size"
             android:autoLink="web"
             android:gravity="center"
             android:linksClickable="true"
-            android:layout_marginBottom="@android:dimen/app_icon_size"
             android:text="@string/textview_signup_PMC1"
             android:textAlignment="center"
             android:textColor="@color/white"
