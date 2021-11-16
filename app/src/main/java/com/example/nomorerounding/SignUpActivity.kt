@@ -54,15 +54,6 @@ class SignUpActivity : AppCompatActivity() {
             false
         )
 
-        val gson: Gson = GsonBuilder()
-            .setPrettyPrinting()
-            .serializeNulls()
-            .excludeFieldsWithModifiers(Modifier.TRANSIENT)
-            .setFieldNamingPolicy(FieldNamingPolicy.IDENTITY)
-            .create()
-        val snd = gson.toJson(KHD)
-        Log.d("lol", snd)
-
         val callPostSignup = server.postSignUp(KHD)
 
         callPostSignup.enqueue(object : Callback<SignUpDTO> {
