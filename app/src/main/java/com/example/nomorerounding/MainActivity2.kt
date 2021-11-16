@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.nomorerounding.databinding.Pmc2Binding
 
-
 class MainActivity2 : AppCompatActivity() {
 
     private var mBinding: Pmc2Binding? = null
