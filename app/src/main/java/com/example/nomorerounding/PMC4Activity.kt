@@ -1,19 +1,23 @@
 package com.example.nomorerounding
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
 import android.widget.Toast
 
-class SignUpActivity : AppCompatActivity() {
+class PMC4Activity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.pmc4)
 
-        val Btn_signup = findViewById<Button>(R.id.btn_signup) as Button
-        Btn_signup.setOnClickListener(View.OnClickListener {
+        val buttonSingUp: Button = findViewById(R.id.button_signup)
+
+        val intentMain = Intent(this, MainActivity::class.java)
+
+        buttonSingUp.setOnClickListener{
             Toast.makeText(this, "가입되었습니다!", Toast.LENGTH_SHORT).show()
-        })
+            startActivity(intentMain)
+        }
     }
 }
