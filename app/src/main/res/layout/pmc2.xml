@@ -140,6 +140,7 @@
             android:background="@drawable/solid_button"
             android:backgroundTint="@color/button"
             android:text="로그인"
+            android:onClick="signin"
             android:textColor="@color/black"
             android:textStyle="bold" />
 
