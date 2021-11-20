@@ -1,84 +1,242 @@
 package com.example.nomorerounding
 
+import android.app.DatePickerDialog
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import android.view.View
-import android.widget.Button
 import android.widget.Toast
-import com.google.gson.FieldNamingPolicy
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
+import com.example.nomorerounding.Client.server
+import com.example.nomorerounding.databinding.Pmc4Binding
 import retrofit2.*
-import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Body
-import retrofit2.http.Headers
-import retrofit2.http.POST
-import java.lang.reflect.Modifier
 import com.example.nomorerounding.model.SignUpDTO
 import com.example.nomorerounding.model.SignUpRequestDTO
+import java.util.*
+import java.util.regex.Pattern
 
 class SignUpActivity : AppCompatActivity() {
+    private var binding: Pmc4Binding? = null
+    private var sex: String = "none"
+    private var electric: Boolean = false
+    private var compact: Boolean = false
+    private var pregnant: Boolean = false
+    private var disabled: Boolean = false
+    private var serverFailSignal: Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.pmc4)
 
-        val Btn_signup = findViewById<Button>(R.id.btn_signup) as Button
+        binding = Pmc4Binding.inflate(layoutInflater) // 뷰바인딩
+        val view: View = binding!!.root
+        setContentView(view)
 
-        Btn_signup.setOnClickListener(View.OnClickListener {
-            Toast.makeText(this, "가입되었습니다!", Toast.LENGTH_SHORT).show()
-            postTest()
-        })
+        binding!!.radioGroup.setOnCheckedChangeListener { group, checkId -> // 성별 리스너
+            when (checkId) {
+                R.id.rg_btn1 -> sex = "MALE"
+                R.id.rg_btn2 -> sex = "FEMALE"
+            }
+        }
+        binding!!.birthEdittext.setOnClickListener { // 생년월일 리스너
+            var calendar = Calendar.getInstance()
+            var year = calendar.get(Calendar.YEAR)
+            var month = calendar.get(Calendar.MONTH)
+            var day = calendar.get(Calendar.DAY_OF_MONTH)
+
+            val dateSetListener = DatePickerDialog.OnDateSetListener { view, year, month, day ->
+                binding!!.birthEdittext.setText("%d-%02d-%02d".format(year, month + 1, day))
+            }
+            DatePickerDialog(this, dateSetListener, year, month, day).show()
+        }
+
+        binding!!.electricSwitch.setOnCheckedChangeListener { buttonView, isChecked -> // 전기차 스위치 리스너
+            electric = isChecked
+        }
+
+        binding!!.compactSwitch.setOnCheckedChangeListener { buttonView, isChecked ->  // 경차 스위치 리스너
+            compact = isChecked
+        }
+
+        binding!!.pregnantSwitch.setOnCheckedChangeListener { buttonView, isChecked -> // 임산부 스위치 리스너
+            pregnant = isChecked
+        }
+
+        binding!!.disabledSwitch.setOnCheckedChangeListener { buttonView, isChecked -> // 장애인 스위치 리스너
+            disabled = isChecked
+        }
+
+        binding!!.btnSignup.setOnClickListener { // 가입하기 눌렀을 때
+            if (checkValidation()) {// 검증되었다면, 로그인페이지로
+                moveLoginPage()
+            }
+        }
     }
 
-    fun postTest() {
-        val BASE_URL = "http://10.0.2.2:1998/"
-        val retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+    private fun checkValidation(): Boolean {
+        var userId = binding?.idEdittext?.text.toString()
+        var userPwd = binding?.pwdEdittext?.text.toString()
+        var userRePwd = binding?.repwdEdittext?.text.toString()
+        var userName = binding?.nameEdittext?.text.toString()
+        var userBirth = binding?.birthEdittext?.text.toString()
+        var userEmail = binding?.emailEdittext?.text.toString()
+        var userCarNum = binding?.carnumEdittext?.text.toString()
 
-        val server: API = retrofit.create(API::class.java)
+        var FailSignal = false
 
-        val KHD = SignUpRequestDTO(
-            "19980813",
-            "12가1234",
-            true,
-            false,
-            true,
-            "qchdkim@naver.com",
-            "MALE",
-            "qchdkim",
-            "김홍덕",
-            "12345",
-            false
-        )
+        if (TextUtils.isEmpty(userId)) { // id 비었을 때
+            FailSignal = true
+            binding?.idFail?.text = "아이디를 입력해주세요"
+            binding?.idFail?.visibility = View.VISIBLE
+        } else if (!Pattern.matches("(?=.*[0-9])(?=.*[a-zA-Z]).{3,15}", userId)) { // 정규표현식
+            FailSignal = true
+            binding?.idFail?.text = "아이디를 형식에 맞게 입력해주세요"
+            binding?.idFail?.visibility = View.VISIBLE
+        } else {
+            binding?.idFail?.visibility = View.INVISIBLE
+        }
 
-        val callPostSignup = server.postSignUp(KHD)
+        if (TextUtils.isEmpty(userPwd)) { // pwd 비었을 때
+            FailSignal = true
+            binding?.pwdFail?.text = "비밀번호를 입력해주세요"
+            binding?.pwdFail?.visibility = View.VISIBLE
+            binding?.repwdFail?.text = "비밀번호를 입력해주세요"
+            binding?.repwdFail?.visibility = View.VISIBLE
+        } else if (!TextUtils.equals(userPwd, userRePwd)) { // pwd - repwd 같지 않을 때
+            FailSignal = true
+            binding?.pwdFail?.text = "비밀번호가 서로 일치하지 않습니다"
+            binding?.pwdFail?.visibility = View.VISIBLE
+            binding?.repwdFail?.text = "비밀번호가 서로 일치하지 않습니다"
+            binding?.repwdFail?.visibility = View.VISIBLE
+        } else if (!Pattern.matches(
+                "(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{8,20}",
+                userPwd
+            )
+        ) { // 정규표현식
+            FailSignal = true
+            binding?.pwdFail?.text = "비밀번호를 형식에 맞게 입력해주세요"
+            binding?.pwdFail?.visibility = View.VISIBLE
+            binding?.repwdFail?.text = "비밀번호를 형식에 맞게 입력해주세요"
+            binding?.repwdFail?.visibility = View.VISIBLE
+        } else {
+            binding?.pwdFail?.visibility = View.INVISIBLE
+            binding?.repwdFail?.visibility = View.INVISIBLE
+        }
+
+        if (TextUtils.isEmpty(userName)) { // 이름
+            FailSignal = true
+            binding?.nameFail?.text = "이름을 입력해주세요"
+            binding?.nameFail?.visibility = View.VISIBLE
+        } else {
+            binding?.nameFail?.visibility = View.INVISIBLE
+        }
+
+        if (TextUtils.equals(userBirth, "클릭하여 생년월일 입력")) { // 생년월일
+            FailSignal = true
+            binding?.birthFail?.text = "생년월일을 입력해주세요"
+            binding?.birthFail?.visibility = View.VISIBLE
+        } else {
+            binding?.birthFail?.visibility = View.INVISIBLE
+        }
+
+        if (TextUtils.equals(sex, "none")) { // 성별
+            FailSignal = true
+            binding?.sexFail?.text = "성별을 선택해주세요"
+            binding?.sexFail?.visibility = View.VISIBLE
+        } else {
+            binding?.sexFail?.visibility = View.INVISIBLE
+        }
+
+        if (TextUtils.isEmpty(userEmail)) { // 이메일 비었을 때
+            FailSignal = true
+            binding?.emailFail?.text = "이메일을 입력해주세요"
+            binding?.emailFail?.visibility = View.VISIBLE
+        } else if (!Pattern.matches(
+                "^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$",
+                userEmail
+            )
+        ) { // 정규표현식
+            FailSignal = true
+            binding?.emailFail?.text = "이메일를 형식에 맞게 입력해주세요"
+            binding?.emailFail?.visibility = View.VISIBLE
+        } else {
+            binding?.emailFail?.visibility = View.INVISIBLE
+        }
+
+        if (TextUtils.isEmpty(userCarNum)) { // 차량번호 비었을 때
+            FailSignal = true
+            binding?.carnumFail?.text = "차량번호를 입력해주세요"
+            binding?.carnumFail?.visibility = View.VISIBLE
+        } else if (!Pattern.matches("^\\d{2,3}[가-힣]{1}\\d{4}\$", userCarNum)) { // 정규표현식
+            // "/￦d{2,3}[가-힣]￦d{4}"
+            FailSignal = true
+            binding?.carnumFail?.text = "차량번호를 형식에 맞게 입력해주세요"
+            binding?.carnumFail?.visibility = View.VISIBLE
+        } else {
+            binding?.carnumFail?.visibility = View.INVISIBLE
+        }
+
+        if (!FailSignal) { // 프론트 검증 완료되면 서버 전송 & 검증
+            var msg = SignUpRequestDTO(
+                userBirth,
+                userCarNum,
+                compact,
+                disabled,
+                electric,
+                userEmail,
+                sex,
+                userId,
+                userName,
+                userPwd,
+                pregnant
+            )
+            if (!signUpPost(msg)) { // 서버 검증 통과 및 계정 생성 완료
+                binding?.signupFail?.visibility = View.INVISIBLE
+                return true
+            }
+            else{
+                binding?.signupFail?.text = "동일한 정보의 계정이 존재합니다!"
+                binding?.signupFail?.visibility = View.VISIBLE
+            }
+        }
+        return false // 재도전
+    }
+
+    private fun signUpPost(msg: SignUpRequestDTO): Boolean {
+        val callPostSignup = server.postSignUp(msg)
 
         callPostSignup.enqueue(object : Callback<SignUpDTO> {
-            override fun onResponse(call: Call<SignUpDTO>, response: Response<SignUpDTO>) {
-                Log.d("lol", "성공 : ${response.raw()}")
-                Log.d("lol", "성공 : ${response.code()}")
-                Log.d("lol", "성공 : ${response.message()}")
-                Log.d("lol", "성공 : ${response.body()}")
-
-                val rcv: SignUpDTO? = response.body()
-                if (rcv != null) {
-                    Log.d("lol", "성공 : ${rcv.tokenResponse?.accessToken}")
+            override fun onResponse(
+                call: Call<SignUpDTO>,
+                response: Response<SignUpDTO>
+            ) {
+                if (response.isSuccessful) {
+                    serverFailSignal = false
+                } else {
+                    when (response.code()) {
+                        400 -> onFailure(call, Throwable())
+                        404 -> onFailure(call, Throwable())
+                        500 -> onFailure(call, Throwable())
+                    }
                 }
             }
             override fun onFailure(call: Call<SignUpDTO>, t: Throwable) {
                 Log.d("lol", "실패 : $t")
+                serverFailSignal = true
             }
         })
+
+        return serverFailSignal
     }
 
+    private fun moveLoginPage() { // 회원가입 성공, 로그인, 액티비티 종료
+        Toast.makeText(this, "회원가입에 성공했습니다!", Toast.LENGTH_LONG).show()
+        startActivity(Intent(this, MainActivity2::class.java))
+        finish()
+    }
 
-    interface API {
-        //@FormUrlEncoded
-        @Headers("Content-Type: application/json")
-        @POST("/api/user/signup")
-        fun postSignUp(@Body JsonObject: SignUpRequestDTO): Call<SignUpDTO>
+    override fun onBackPressed() { // 뒤로가기 눌렀을 때, 액티비티 종료
+        startActivity(Intent(this, MainActivity::class.java))
+        finish()
     }
 }
