@@ -5,7 +5,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.example.nomorerounding.Client.server
@@ -23,7 +22,6 @@ class SignUpActivity : AppCompatActivity() {
     private var compact: Boolean = false
     private var pregnant: Boolean = false
     private var disabled: Boolean = false
-    private var serverFailSignal: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,14 +64,12 @@ class SignUpActivity : AppCompatActivity() {
             disabled = isChecked
         }
 
-        binding!!.btnSignup.setOnClickListener { // 가입하기 눌렀을 때
-            if (checkValidation()) {// 검증되었다면, 로그인페이지로
-                moveLoginPage()
-            }
+        binding!!.btnSignup.setOnClickListener { // 가입하기 눌렀을 때 로컬검증 -> 원격검증 -> 페이지 넘기기
+            checkValidation()
         }
     }
 
-    private fun checkValidation(): Boolean {
+    private fun checkValidation() {
         var userId = binding?.idEdittext?.text.toString()
         var userPwd = binding?.pwdEdittext?.text.toString()
         var userRePwd = binding?.repwdEdittext?.text.toString()
@@ -190,30 +186,23 @@ class SignUpActivity : AppCompatActivity() {
                 userPwd,
                 pregnant
             )
-            if (!signUpPost(msg)) { // 서버 검증 통과 및 계정 생성 완료
-                binding?.signupFail?.visibility = View.INVISIBLE
-                return true
-            }
-            else{
-                binding?.signupFail?.text = "동일한 정보의 계정이 존재합니다!"
-                binding?.signupFail?.visibility = View.VISIBLE
-            }
+            signUpPost(msg) // 서버 전송
         }
-        return false // 재도전
-    }
+    } // 재입력 요구
 
-    private fun signUpPost(msg: SignUpRequestDTO): Boolean {
+    private fun signUpPost(msg: SignUpRequestDTO) { // 서버 요청
         val callPostSignup = server.postSignUp(msg)
+        var temp: Boolean = false
 
         callPostSignup.enqueue(object : Callback<SignUpDTO> {
             override fun onResponse(
                 call: Call<SignUpDTO>,
                 response: Response<SignUpDTO>
             ) {
-                if (response.isSuccessful) {
-                    serverFailSignal = false
+                if (response.isSuccessful) { // 성공하면 페이지 넘기기
+                    moveLoginPage()
                 } else {
-                    when (response.code()) {
+                    when (response.code()) { // 미완벽 구현
                         400 -> onFailure(call, Throwable())
                         404 -> onFailure(call, Throwable())
                         500 -> onFailure(call, Throwable())
@@ -221,12 +210,10 @@ class SignUpActivity : AppCompatActivity() {
                 }
             }
             override fun onFailure(call: Call<SignUpDTO>, t: Throwable) {
-                Log.d("lol", "실패 : $t")
-                serverFailSignal = true
+                binding?.signupFail?.text = "동일한 정보의 계정이 존재합니다!"
+                binding?.signupFail?.visibility = View.VISIBLE
             }
         })
-
-        return serverFailSignal
     }
 
     private fun moveLoginPage() { // 회원가입 성공, 로그인, 액티비티 종료
