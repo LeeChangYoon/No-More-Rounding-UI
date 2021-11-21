@@ -192,7 +192,6 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun signUpPost(msg: SignUpRequestDTO) { // 서버 요청
         val callPostSignup = server.postSignUp(msg)
-        var temp: Boolean = false
 
         callPostSignup.enqueue(object : Callback<SignUpDTO> {
             override fun onResponse(
