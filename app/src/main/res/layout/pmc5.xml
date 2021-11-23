@@ -38,47 +38,55 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="-10dp"
                 android:layout_weight="2"
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/icon_disabled"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginRight="5dp"
-                    android:src="@drawable/on1"
-                    app:civ_border_color="@color/grey"
-                    app:civ_border_width="1dp" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:layout_marginBottom="4dp"
+                    android:orientation="horizontal">
 
-                <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/icon_pregnant"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginRight="5dp"
-                    android:src="@drawable/on2"
-                    app:civ_border_color="@color/grey"
-                    app:civ_border_width="1dp" />
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/icon_compactCar"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_margin="3dp"
+                        android:src="@drawable/ic_round_eco_25_n"
+                        app:civ_border_color="@color/grey"
+                        app:civ_border_width="0.7dp" />
 
-                <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/icon_light"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginRight="5dp"
-                    android:src="@drawable/off3"
-                    app:civ_border_color="@color/grey"
-                    app:civ_border_width="1dp" />
+                    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/icon_electric"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_margin="3dp"
+                        android:src="@drawable/ic_round_electric_car_25_n"
+                        app:civ_border_color="@color/grey"
+                        app:civ_border_width="0.7dp" />
 
-                <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/icon_electric"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/off4"
-                    app:civ_border_color="@color/grey"
-                    app:civ_border_width="1dp" />
+                    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/icon_disabled"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_margin="3dp"
+                        android:src="@drawable/ic_round_accessible_25_n"
+                        app:civ_border_color="@color/grey"
+                        app:civ_border_width="0.7dp" />
+
+                    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/icon_pregnant"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_margin="3dp"
+                        android:src="@drawable/ic_round_pregnant_woman_25_n"
+                        app:civ_border_color="@color/grey"
+                        app:civ_border_width="0.7dp" />
 
 
+                </LinearLayout>
             </LinearLayout>
 
         </LinearLayout>

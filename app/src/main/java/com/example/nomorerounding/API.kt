@@ -11,7 +11,6 @@ interface API {
     @POST("api/user/login/")
     fun requestLogin(@Body loginRequest: SignInRequestDTO): Call<UserResponseDTO>
 
-
     @Headers("Content-Type: application/json")
     @POST("/api/user/signup")
     fun postSignUp(@Body JsonObject: SignUpRequestDTO): Call<UserResponseDTO>

@@ -3,8 +3,10 @@ package com.example.nomorerounding
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.nomorerounding.databinding.Pmc2Binding
@@ -51,10 +53,11 @@ class PMC2Activity : AppCompatActivity() {
                     call: Call<UserResponseDTO>,
                     response: Response<UserResponseDTO>
                 ) {
-                    if (response.isSuccessful()) {
+                    if (response.isSuccessful) {
                         val user: UserResponseDTO? = response.body()
                         intentPMC5.putExtra("user", user)
                         startActivity(intentPMC5)
+                        finish()
                     } else {
                         when (response.code()) {
                             400 -> onFailure(call, Throwable())
