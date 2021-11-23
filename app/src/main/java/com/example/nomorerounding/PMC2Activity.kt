@@ -40,6 +40,7 @@ class PMC2Activity : AppCompatActivity() {
                 ) {
                     if (response.isSuccessful()) {
                         val user: UserResponseDTO? = response.body()
+                        intentPMC5.putExtra("user", user)
                         startActivity(intentPMC5)
                     } else {
                         when (response.code()) {
