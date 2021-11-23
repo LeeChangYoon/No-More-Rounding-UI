@@ -111,7 +111,20 @@
                 android:textColor="@color/white"
                 android:textStyle="bold" />
         </com.google.android.material.textfield.TextInputLayout>
-
+        <TextView
+            android:layout_marginTop="-5dp"
+            android:id="@+id/login_fail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:paddingLeft="25dp"
+            android:text="아이디 또는 비밀번호가 일치하지 않습니다."
+            android:textColor="@color/red"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="10dp"
+            android:visibility="invisible"
+            />
         <TextView
             android:id="@+id/textView_find"
             android:layout_width="match_parent"

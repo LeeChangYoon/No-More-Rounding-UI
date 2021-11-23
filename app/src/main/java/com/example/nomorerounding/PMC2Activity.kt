@@ -2,6 +2,8 @@ package com.example.nomorerounding
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.TextUtils
+import android.view.View
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -29,10 +31,21 @@ class PMC2Activity : AppCompatActivity() {
         val intentPMC3 = Intent(this, PMC3Activity::class.java)
         val intentPMC5 = Intent(this, PMC5Activity::class.java)
 
+
         binding.buttonSignin.setOnClickListener {
             val loginId = ID.text.toString()
             val password = PASSWORD.text.toString()
 
+            if(TextUtils.isEmpty(loginId) and TextUtils.isEmpty(password)){
+                binding.loginFail.setText("아이디와 비밀번호를 입력해주세요.")
+                binding.loginFail.visibility = View.VISIBLE
+            } else if(TextUtils.isEmpty(loginId)){
+                binding.loginFail.setText("아이디를 입력해주세요")
+                binding.loginFail.visibility = View.VISIBLE
+            } else if(TextUtils.isEmpty(password)){
+                binding.loginFail.setText("비밀번호를 입력해주세요")
+                binding.loginFail.visibility = View.VISIBLE
+            }else{
             server.requestLogin(SignInRequestDTO(loginId, password)).enqueue(object : Callback<UserResponseDTO> {
                 override fun onResponse(
                     call: Call<UserResponseDTO>,
@@ -52,12 +65,11 @@ class PMC2Activity : AppCompatActivity() {
                 }
 
                 override fun onFailure(call: Call<UserResponseDTO>, t: Throwable) {
-                    val dialog = AlertDialog.Builder(this@PMC2Activity)
-                    dialog.setTitle("에러")
-                    dialog.setMessage("호출실패했습니다.")
-                    dialog.show()
+                    binding.loginFail.setText("아이디 또는 비밀번호가 일치하지 않습니다.")
+                    binding.loginFail.visibility = View.VISIBLE
                 }
             })
+            }
         }
 
         binding.textViewFind.setOnClickListener {
