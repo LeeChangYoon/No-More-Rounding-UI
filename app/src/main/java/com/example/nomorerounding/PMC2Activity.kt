@@ -2,7 +2,6 @@ package com.example.nomorerounding
 
 import android.content.Intent
 import android.os.Bundle
-import android.security.identity.AccessControlProfileId
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -10,10 +9,9 @@ import com.example.nomorerounding.databinding.Pmc2Binding
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Body
-import retrofit2.http.POST
+import com.example.nomorerounding.User.server
+import com.example.nomorerounding.model.SignInRequestDTO
+import com.example.nomorerounding.model.UserResponseDTO
 
 class PMC2Activity : AppCompatActivity() {
     private var _binding: Pmc2Binding? = null
@@ -21,12 +19,6 @@ class PMC2Activity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val retrofit = Retrofit.Builder()
-            .baseUrl("http://10.0.2.2:1998")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        val login: login = retrofit.create(login::class.java)
 
         _binding = Pmc2Binding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -41,12 +33,13 @@ class PMC2Activity : AppCompatActivity() {
             val loginId = ID.text.toString()
             val password = PASSWORD.text.toString()
 
-            login.requestLogin(loginRequest(loginId, password)).enqueue(object : Callback<loginRequest> {
+            server.requestLogin(SignInRequestDTO(loginId, password)).enqueue(object : Callback<UserResponseDTO> {
                 override fun onResponse(
-                    call: Call<loginRequest>,
-                    response: Response<loginRequest>
+                    call: Call<UserResponseDTO>,
+                    response: Response<UserResponseDTO>
                 ) {
                     if (response.isSuccessful()) {
+                        val user: UserResponseDTO? = response.body()
                         startActivity(intentPMC5)
                     } else {
                         when (response.code()) {
@@ -57,7 +50,7 @@ class PMC2Activity : AppCompatActivity() {
                     }
                 }
 
-                override fun onFailure(call: Call<loginRequest>, t: Throwable) {
+                override fun onFailure(call: Call<UserResponseDTO>, t: Throwable) {
                     val dialog = AlertDialog.Builder(this@PMC2Activity)
                     dialog.setTitle("에러")
                     dialog.setMessage("호출실패했습니다.")
