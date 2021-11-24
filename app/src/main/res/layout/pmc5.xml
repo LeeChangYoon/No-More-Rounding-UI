@@ -224,7 +224,19 @@
             android:layout_marginTop="44dp"
             android:background="@color/empty_space"
 
-            ></RelativeLayout>
+            >
+
+            <ImageView
+                android:id="@+id/a01view"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/on2"
+                android:visibility="invisible">
+
+            </ImageView>
+
+        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/a02"
@@ -239,7 +251,15 @@
 
             >
 
+            <ImageView
+                android:id="@+id/a02view"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/on2"
+                android:visibility="invisible">
 
+            </ImageView>
         </RelativeLayout>
 
         <RelativeLayout
@@ -253,8 +273,15 @@
             android:layout_marginTop="4dp"
             android:background="@color/empty_space">
 
+            <ImageView
+                android:id="@+id/a03view"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/on2"
+                android:visibility="invisible">
 
-
+            </ImageView>
         </RelativeLayout>
 
         <RelativeLayout
@@ -265,9 +292,17 @@
             android:layout_alignParentStart="true"
             android:layout_marginStart="38dp"
             android:layout_marginLeft="38dp"
-            android:layout_marginTop="4dp"
-            android:background="@drawable/x">
+            android:layout_marginTop="-1dp"
+            android:background="@color/empty_space">
+            <ImageView
+                android:id="@+id/a04view"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/on2"
+                android:visibility="invisible">
 
+            </ImageView>
         </RelativeLayout>
 
         <RelativeLayout
@@ -282,10 +317,12 @@
             android:background="@color/empty_space">
 
             <ImageView
+                android:id="@+id/a05view"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_alignParentRight="true"
-                android:background="@drawable/on2">
+                android:background="@drawable/on2"
+                >
 
             </ImageView>
 
@@ -305,10 +342,12 @@
             android:background="@color/empty_space">
 
             <ImageView
+                android:id="@+id/a06view"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_alignParentRight="true"
-                android:background="@drawable/on3"></ImageView>
+                android:background="@drawable/on3"
+                ></ImageView>
         </RelativeLayout>
 
         <RelativeLayout
@@ -323,7 +362,16 @@
             android:layout_marginEnd="42dp"
             android:layout_toEndOf="@+id/a01"
             android:layout_toRightOf="@id/a01"
-            android:background="@color/empty_space"></RelativeLayout>
+            android:background="@color/empty_space">
+            <ImageView
+            android:id="@+id/b01view"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/on2"
+                android:visibility="invisible">
+
+        </ImageView></RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/b02"
@@ -337,7 +385,18 @@
             android:layout_marginEnd="42dp"
             android:layout_toEndOf="@+id/a02"
             android:layout_toRightOf="@id/a01"
-            android:background="@color/empty_space"></RelativeLayout>
+            android:background="@color/empty_space">
+            <ImageView
+                android:id="@+id/b02view"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/on2"
+                android:visibility="invisible">
+
+            </ImageView>
+
+        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/b03"
@@ -351,7 +410,18 @@
             android:layout_marginEnd="42dp"
             android:layout_toEndOf="@+id/a03"
             android:layout_toRightOf="@id/a03"
-            android:background="@color/empty_space"></RelativeLayout>
+            android:background="@color/empty_space">
+            <ImageView
+                android:id="@+id/b03view"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/on2"
+                android:visibility="invisible">
+
+            </ImageView>
+
+        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/b04"
@@ -365,7 +435,20 @@
             android:layout_marginEnd="42dp"
             android:layout_toEndOf="@+id/a04"
             android:layout_toRightOf="@id/a04"
-            android:background="@color/button"></RelativeLayout>
+            android:background="@color/empty_space">
+
+            <ImageView
+                android:id="@+id/b04view"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/on2"
+                android:visibility="invisible"
+                >
+
+            </ImageView>
+
+        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/b05"
@@ -382,10 +465,13 @@
             android:background="@color/empty_space">
 
             <ImageView
+                android:id="@+id/b05view"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_alignParentRight="true"
-                android:background="@drawable/on1">
+                android:layout_marginRight="0dp"
+                android:background="@drawable/on1"
+                >
 
             </ImageView>
 
@@ -408,6 +494,7 @@
             android:background="@color/empty_space">
 
             <ImageView
+                android:id="@+id/b06view"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_alignParentRight="true"

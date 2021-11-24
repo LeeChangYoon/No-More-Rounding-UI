@@ -5,13 +5,12 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.Toast
-import android.widget.ToggleButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.nomorerounding.User.server
-import com.example.nomorerounding.databinding.Pmc2Binding
 import com.example.nomorerounding.databinding.Pmc5Binding
 import com.example.nomorerounding.model.LotResponseDTO
 import com.example.nomorerounding.model.UserResponseDTO
@@ -22,6 +21,7 @@ import retrofit2.Response
 class PMC5Activity : AppCompatActivity() {
     private var binding: Pmc5Binding? = null
     private var user: UserResponseDTO? = null
+    private var parkLocation: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +40,8 @@ class PMC5Activity : AppCompatActivity() {
         }
 
         setParkingLot() // search 후 색깔 칠하는것까지 다 해주는거
+
+
 
     }
 
@@ -109,11 +111,25 @@ class PMC5Activity : AppCompatActivity() {
         relativeArray.add(binding!!.b05)
         relativeArray.add(binding!!.b06)
 
+        var viewArray : ArrayList<ImageView> = ArrayList()
+        viewArray.add(binding!!.a01view)
+        viewArray.add(binding!!.a02view)
+        viewArray.add(binding!!.a03view)
+        viewArray.add(binding!!.a04view)
+        viewArray.add(binding!!.a05view)
+        viewArray.add(binding!!.a06view)
+        viewArray.add(binding!!.b01view)
+        viewArray.add(binding!!.b02view)
+        viewArray.add(binding!!.b03view)
+        viewArray.add(binding!!.b04view)
+        viewArray.add(binding!!.b05view)
+        viewArray.add(binding!!.b06view)
+
         for (i in map?.spaceResponses!!){
             //Log.d("lol", i.toString())
                 if (i.userId != user?.id) {
-                    relativeArray[i.spaceColumn!!.times(6) + i.spaceRow!!].setBackground(
-                        ContextCompat.getDrawable(this, R.drawable.x));
+                    relativeArray[i.spaceColumn!!.times(6) + i.spaceRow!!].background =
+                        ContextCompat.getDrawable(this, R.drawable.x);
                 }
                 else{
                     relativeArray[i.spaceColumn!!.times(6) + i.spaceRow!!].setBackgroundColor(Color.parseColor("#FEBE49"))
@@ -121,11 +137,49 @@ class PMC5Activity : AppCompatActivity() {
         }
 
         for (i in map?.specificSpaceResponses!!){
-            Log.d("lol", i.toString())
+            Log.d("lol", i.spaceType.toString())
+            when(i.spaceType.toString()){
+                "PREGNANT" -> {
+                    viewArray[i.spaceColumn!!.times(6)+ i.spaceRow!!].background =
+                        ContextCompat.getDrawable(this, R.drawable.ic_round_pregnant_woman_25);
+                    if(user?.carResponse?.pregnant == false){
+                    //여기서 마크 지워주고, x도 칠해줘야함
+                    viewArray[i.spaceColumn!!.times(6)+ i.spaceRow!!].visibility = View.INVISIBLE
+                    relativeArray[i.spaceColumn!!.times(6) + i.spaceRow!!].background =
+                        ContextCompat.getDrawable(this, R.drawable.x);
+                    }
+                }
+                "COMPACT" -> {
+                    viewArray[i.spaceColumn!!.times(6)+ i.spaceRow!!].background =
+                        ContextCompat.getDrawable(this, R.drawable.ic_round_eco_25);
+                    if(user?.carResponse?.compactCar == false){
+                        //여기서 마크 지워주고, x도 칠해줘야함
+                        viewArray[i.spaceColumn!!.times(6)+ i.spaceRow!!].visibility = View.INVISIBLE
+                        relativeArray[i.spaceColumn!!.times(6) + i.spaceRow!!].background =
+                            ContextCompat.getDrawable(this, R.drawable.x);
+                    }
+                }
+                "ELECTRIC" -> {
+                    viewArray[i.spaceColumn!!.times(6)+ i.spaceRow!!].background =
+                        ContextCompat.getDrawable(this, R.drawable.ic_round_electric_car_25);
+                    if(user?.carResponse?.electric == false){
+                    //여기서 마크 지워주고, x도 칠해줘야함
+                    viewArray[i.spaceColumn!!.times(6)+ i.spaceRow!!].visibility = View.INVISIBLE
+                    relativeArray[i.spaceColumn!!.times(6) + i.spaceRow!!].background =
+                        ContextCompat.getDrawable(this, R.drawable.x);
+                    }
 
-
+                }
+                "DISABLED" -> {
+                    viewArray[i.spaceColumn!!.times(6)+ i.spaceRow!!].background =
+                        ContextCompat.getDrawable(this, R.drawable.ic_round_accessible_25);
+                    if(user?.carResponse?.disabled == false){
+                    //여기서 마크 지워주고, x도 칠해줘야함
+                    viewArray[i.spaceColumn!!.times(6)+ i.spaceRow!!].visibility = View.INVISIBLE
+                    relativeArray[i.spaceColumn!!.times(6) + i.spaceRow!!].background =
+                        ContextCompat.getDrawable(this, R.drawable.x);
+                }}
+            }
         }
-
     }
-
-    }
+}
