@@ -222,7 +222,9 @@
             android:layout_marginStart="38dp"
             android:layout_marginLeft="38dp"
             android:layout_marginTop="44dp"
-            android:background="@color/empty_space"></RelativeLayout>
+            android:background="@color/empty_space"
+
+            ></RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/a02"
@@ -233,7 +235,12 @@
             android:layout_marginStart="38dp"
             android:layout_marginLeft="38dp"
             android:layout_marginTop="3dp"
-            android:background="@color/empty_space"></RelativeLayout>
+            android:background="@color/empty_space"
+
+            >
+
+
+        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/a03"
@@ -245,6 +252,8 @@
             android:layout_marginLeft="38dp"
             android:layout_marginTop="4dp"
             android:background="@color/empty_space">
+
+
 
         </RelativeLayout>
 

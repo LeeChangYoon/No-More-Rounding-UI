@@ -16,8 +16,8 @@ interface API {
     @POST("/api/user/signup")
     fun postSignUp(@Body JsonObject: SignUpRequestDTO): Call<UserResponseDTO>
 
-//    @GET("/api/parking/search/1")
-//    fun setParkingLot(@Body floor: String): Call<LotResponseDTO>
 
+    @GET("/api/parking/search/{floor}")
+    fun getParkingLot(@Path("floor") floor: String , @Header("Authorization") auth: String): Call<LotResponseDTO>
 }
 
