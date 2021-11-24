@@ -35,11 +35,14 @@ class PMC5Activity : AppCompatActivity() {
         val intent: Intent = intent
         user = intent.getParcelableExtra("user") // 로그인 유저 정보 받아오기
 
-        if (user != null) { // 유저정보 있으면 출력
+        if (user != null) {
             setUserDock()
+            setParkingLot() // search 후 색깔 칠하는것까지 다 해주는거
+         // 유저정보 있으면 출력
         }
 
-        setParkingLot() // search 후 색깔 칠하는것까지 다 해주는거
+
+
 
 
 
@@ -130,42 +133,54 @@ class PMC5Activity : AppCompatActivity() {
                 if (i.userId != user?.id) {
                     relativeArray[i.spaceColumn!!.times(6) + i.spaceRow!!].background =
                         ContextCompat.getDrawable(this, R.drawable.x);
+
                 }
-                else{
+                else{ // 주차된 차량이랑 내 usdid가 같은 경우 == 내 차 주차됨
                     relativeArray[i.spaceColumn!!.times(6) + i.spaceRow!!].setBackgroundColor(Color.parseColor("#FEBE49"))
+
+                    if(i.spaceColumn == 0){
+                        parkLocation = "A-0"
+                    }else{
+                        parkLocation = "B-0"
+                    }
+
+                    binding?.userParkingLocation?.text = parkLocation.plus(i.spaceRow.toString())
+
                 }
         }
 
         for (i in map?.specificSpaceResponses!!){
-            Log.d("lol", i.spaceType.toString())
+            Log.d("lol", i.spaceType.toString() + i.spaceColumn!!.times(6)+ (i.spaceRow)!!.toInt())
             when(i.spaceType.toString()){
                 "PREGNANT" -> {
-                    viewArray[i.spaceColumn!!.times(6)+ i.spaceRow!!].background =
+                    viewArray[i.spaceColumn!!.times(6)+ (i.spaceRow)!!.toInt()].background =
                         ContextCompat.getDrawable(this, R.drawable.ic_round_pregnant_woman_25);
                     if(user?.carResponse?.pregnant == false){
                     //여기서 마크 지워주고, x도 칠해줘야함
-                    viewArray[i.spaceColumn!!.times(6)+ i.spaceRow!!].visibility = View.INVISIBLE
-                    relativeArray[i.spaceColumn!!.times(6) + i.spaceRow!!].background =
+                    //viewArray[i.spaceColumn!!.times(6)+ (i.spaceRow)!!.toInt()].visibility = View.INVISIBLE
+                    relativeArray[i.spaceColumn!!.times(6)+ (i.spaceRow)!!.toInt()].background =
                         ContextCompat.getDrawable(this, R.drawable.x);
                     }
                 }
                 "COMPACT" -> {
-                    viewArray[i.spaceColumn!!.times(6)+ i.spaceRow!!].background =
+                    //Log.d("lol", (i.spaceColumn!!.times(6)+ i.spaceRow!!).toString())
+
+                    viewArray[i.spaceColumn!!.times(6)+ (i.spaceRow)!!.toInt()].background =
                         ContextCompat.getDrawable(this, R.drawable.ic_round_eco_25);
                     if(user?.carResponse?.compactCar == false){
                         //여기서 마크 지워주고, x도 칠해줘야함
-                        viewArray[i.spaceColumn!!.times(6)+ i.spaceRow!!].visibility = View.INVISIBLE
-                        relativeArray[i.spaceColumn!!.times(6) + i.spaceRow!!].background =
+                        //viewArray[i.spaceColumn!!.times(6)+ (i.spaceRow)!!.toInt()].visibility = View.INVISIBLE
+                        relativeArray[i.spaceColumn!!.times(6)+ (i.spaceRow)!!.toInt()].background =
                             ContextCompat.getDrawable(this, R.drawable.x);
                     }
                 }
                 "ELECTRIC" -> {
-                    viewArray[i.spaceColumn!!.times(6)+ i.spaceRow!!].background =
+                    viewArray[i.spaceColumn!!.times(6)+ (i.spaceRow)!!.toInt()].background =
                         ContextCompat.getDrawable(this, R.drawable.ic_round_electric_car_25);
                     if(user?.carResponse?.electric == false){
                     //여기서 마크 지워주고, x도 칠해줘야함
-                    viewArray[i.spaceColumn!!.times(6)+ i.spaceRow!!].visibility = View.INVISIBLE
-                    relativeArray[i.spaceColumn!!.times(6) + i.spaceRow!!].background =
+                    //viewArray[i.spaceColumn!!.times(6)+ (i.spaceRow)!!.toInt()].visibility = View.INVISIBLE
+                    relativeArray[i.spaceColumn!!.times(6)+ (i.spaceRow)!!.toInt()].background =
                         ContextCompat.getDrawable(this, R.drawable.x);
                     }
 
@@ -175,7 +190,7 @@ class PMC5Activity : AppCompatActivity() {
                         ContextCompat.getDrawable(this, R.drawable.ic_round_accessible_25);
                     if(user?.carResponse?.disabled == false){
                     //여기서 마크 지워주고, x도 칠해줘야함
-                    viewArray[i.spaceColumn!!.times(6)+ i.spaceRow!!].visibility = View.INVISIBLE
+                    //viewArray[i.spaceColumn!!.times(6)+ i.spaceRow!!].visibility = View.INVISIBLE
                     relativeArray[i.spaceColumn!!.times(6) + i.spaceRow!!].background =
                         ContextCompat.getDrawable(this, R.drawable.x);
                 }}
