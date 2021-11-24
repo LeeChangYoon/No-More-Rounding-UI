@@ -29,6 +29,7 @@ class PMC5Activity : AppCompatActivity() {
             setUserDock(user)
         }
 
+        // 최초에 search 해줘야 함
 
     }
 
