@@ -20,8 +20,12 @@ import com.example.nomorerounding.model.UserResponseDTO
 class PMC2Activity : AppCompatActivity() {
     private var _binding: Pmc2Binding? = null
     private val binding get() = _binding!!
+    companion object {
+        lateinit var prefs: Prefs
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        prefs=Prefs(applicationContext)
         super.onCreate(savedInstanceState)
 
         _binding = Pmc2Binding.inflate(layoutInflater)
@@ -56,6 +60,7 @@ class PMC2Activity : AppCompatActivity() {
                     if (response.isSuccessful) {
                         val user: UserResponseDTO? = response.body()
                         intentPMC5.putExtra("user", user)
+                        prefs.token = user?.tokenResponse?.accessToken
                         startActivity(intentPMC5)
                         finish()
                     } else {

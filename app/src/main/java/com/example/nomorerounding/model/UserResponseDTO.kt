@@ -10,5 +10,6 @@ data class UserResponseDTO(
     var gender: String?,
     var email: String?,
     var carResponse: CarResponseDTO?,
-    var tokenResponse: TokenResponseDTO?
+    var tokenResponse: TokenResponseDTO?,
+    var id: Int?
 ) : Parcelable
